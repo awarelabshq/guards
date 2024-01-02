@@ -1,5 +1,9 @@
 # Aware Guards
 
+  
+> Empowering developers to _“guard their functions”_ from being pushed to production without being properly tested or meeting performance expectations.
+  
+
 When a new release candidate is being pushed to Production, there are many expectations about the system that needs to be ensured. The typical gating mechanism is running all automation tests as part of the CI / CD pipeline and ensuring the tests are passing. But this leaves room for a lot of issues / inefficiencies to leak into production.
 
 For starters, what if there is no automation test covering a certain conditional path in a flow? Though all your automation tests may be passing, if the tests aren’t covering all execution paths / scenarios in your system, then tests passing isn’t a sufficient condition to ensure the release is stable enough to be pushed.
@@ -14,14 +18,16 @@ With Aware Guards, you can create guard conditions detailing various expectation
 1. Ensure the newly added `newConditionalPath()` function is tested by manual QA testing
 2. Ensure that the latency of `operationFoo` is at max 500ms during stress testing of the release
 3. Ensure that the `PayFlow API` is tested with all payment methods supported by the product in automation testing
-   
-Unlike existing approaches that are tightly coupled with specific automation test frameworks, Aware works across all end to end test approaches including Manual QA, Load testing etc. since it relies purely on trace logs in different environments.
 
-# Guard Functions with `@Guarded`
+Since Aware Guards rely on OpenTelemetry Traces / Spans, they are:
+* Tech stack agnostic (works anywhere OTel works) 
+* Test approach agnostic (works with Manual QA, Load Testing, Stress Testing, Automation Testing etc.) 
 
-With Aware Guard Annotations, developers can specify expectations on testing / performance directly via code - making it frictionless to specify guards at individual function level in an intuitive manner, and empowers developers to _“guard their functions”_ from being pushed to production without being properly tested or meeting performance expectations.
+## Guard Functions with `@Guarded`
 
-## Guard Recipes
+With Aware Guard Annotations (the scope of this Open Source Project), developers can specify expectations on testing / performance directly via code - making it frictionless to specify guards at individual function level in an intuitive manner, and empowers developers to _“guard their functions”_ from being pushed to production without being properly tested or meeting performance expectations.
+
+### Guard Recipes
 
 Say you are a developer writing / updating a function `doComplexThing()`. 
 
@@ -64,7 +70,7 @@ doComplexThing(List<Object> input){
 }
 ```
 
-* Dont halt the release, just inform:
+* Don't halt the release, just inform:
 
 ```  
 @Guarded ( severity = “INFO” )
@@ -77,3 +83,11 @@ Guards allow expressing various assumptions developers make while writing code. 
 
 
 By simply annotating key functions with `@Guarded` annotation (and specifying the assumptions as conditions), you can quickly identify when those assumptions are broken at their earliest (and at finer granularities). Aware Guards UI shows the status of the guards for a given resource, providing a quick map of where improvements can be made in your stack.
+
+## How It Works
+
+Prerequisites: 
+1. The system needs to be instrumented with [OpenTelemetry](https://opentelemetry.io/).
+2. Exporting telemetry data to [Aware Labs](https://awarelabs.io) (Refer [here](https://awarelabs.io/blog/getting-started) to get started with Aware Labs).
+
+When a function is annotated with `@Guarded` annotation, it causes an aspect to be run (implemented in a language specific manner) which creates a Span in the current Trace for the annotated function. The Aspect then attaches guard metadata extracted from the annotation arguments (such as severity, condition etc.) as attributes of the created Span. These attributes are then consumed by [Aware Platform](https://awarelabs.io) to create Guards which can be evaluated against a specific release version of a given resource binary (eg: Evaluate all guards in `frontend` service for release version `2024.01.10.1`). You can call Aware Data API from your CI / CD pipeline to get guard evaluation results (for halting pushes on FATAL guard failures). Aware Web UI shows the status of all active guards and their evaluations - which serves as a map of "where to improve your stack".
