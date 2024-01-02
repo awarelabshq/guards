@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.aware.guards"
-version = "0.0.33"
+version = "0.0.34"
 val springBootVersion = "2.7.4"
 
 repositories {
