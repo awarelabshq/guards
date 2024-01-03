@@ -9,4 +9,4 @@
  */
 
 rootProject.name = "aware-guards-java"
-include("lib")
+include("java")

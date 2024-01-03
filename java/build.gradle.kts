@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.aware.guards"
-version = "0.0.34"
+version = "0.0.35"
 val springBootVersion = "2.7.4"
 
 repositories {
@@ -29,20 +29,12 @@ java {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/awarelabshq/guards")
-            credentials {
-                username = System.getenv("GITHUB_USER")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+            groupId="com.aware.guards"
             artifactId = "aware-guards-java"
+            version="0.0.35"
         }
     }
 }
