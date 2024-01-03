@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.aware.guards'
-version = '0.0.351'
+version = '0.0.352'
 def springBootVersion = '2.7.4'
 
 repositories {
@@ -31,7 +31,7 @@ publishing {
             from(components.java)
             groupId = 'com.aware.guards'
             artifactId = 'aware-guards-java'
-            version = '0.0.351'
+            version = '0.0.352'
         }
     }
 }
