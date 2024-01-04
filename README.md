@@ -49,7 +49,7 @@ doComplexThing()
 * Ensure that the average latency of the operation is < 500ms in load testing:
 
 ```
-@Guarded( condition = “avg_latency < 500”, environment = “load”)
+@Guarded( condition = “avg_latency < 500”, environment = “load” )
 doComplexThing()
 ```
 
@@ -99,17 +99,23 @@ When a function is annotated with `@Guarded` annotation, it causes an aspect to 
 1. Add the jitpack repository in your gradle files' repository section:
 
 ```
-		repositories {
-			maven { url 'https://jitpack.io' }
-		}
+repositories {
+	maven { url 'https://jitpack.io' }
+}
 ```
 
 2. Add guards library dependency:
 
 ```
-	dependencies {
-	        implementation 'com.github.awarelabshq:guards:0.0.359'
-	}
+dependencies {
+        implementation 'com.github.awarelabshq:guards:0.0.359'
+}
 ```
 
 3. Thats it! You can now annotate your functions with `@Guarded` annotation.
+
+___
+
+For questions / suggestions, reach out to [contact@awarelabs.io](mailto:contact@awarelabs.io).
+
+Proudly powered by [Aware Labs](https://awarelabs.io)
