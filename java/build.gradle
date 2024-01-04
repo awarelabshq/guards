@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'io.spring.dependency-management' version '1.1.0'
 
 group = 'com.aware.guards'
-version = '0.0.356'
+version = '0.0.357'
 def springBootVersion = '2.7.4'
 
 repositories {
@@ -25,16 +25,17 @@ dependencies {
 sourceCompatibility = 1.8 // Set to the desired Java version
 targetCompatibility = 1.8 // Set to the desired Java version
 
-/*publishing {
+java {
+    withSourcesJar()
+}
+
+publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            groupId = 'com.aware.guards'
-            artifactId = 'aware-guards-java'
-            version = '0.0.355'
         }
     }
-}*/
+}
 
 wrapper {
     gradleVersion = "7.3.3"
