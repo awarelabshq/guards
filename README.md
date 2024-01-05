@@ -1,4 +1,5 @@
 # Aware Guards
+[![](https://jitpack.io/v/awarelabshq/guards.svg)](https://jitpack.io/#awarelabshq/guards)
 
   
 > Empowering developers to _“guard their functions”_ from being pushed to production without being properly tested or meeting performance expectations.
@@ -48,7 +49,7 @@ doComplexThing()
 * Ensure that the average latency of the operation is < 500ms in load testing:
 
 ```
-@Guarded( condition = “avg_latency < 500”, environment = “load”)
+@Guarded( condition = “avg_latency < 500”, environment = “load” )
 doComplexThing()
 ```
 
@@ -91,3 +92,30 @@ Prerequisites:
 2. Exporting telemetry data to [Aware Labs](https://awarelabs.io) (Refer [here](https://awarelabs.io/blog/getting-started) to get started with Aware Labs).
 
 When a function is annotated with `@Guarded` annotation, it causes an aspect to be run (implemented in a language specific manner) which creates a Span in the current Trace for the annotated function. The Aspect then attaches guard metadata extracted from the annotation arguments (such as severity, condition etc.) as attributes of the created Span. These attributes are then consumed by [Aware Platform](https://awarelabs.io) to create Guards which can be evaluated against a specific release version of a given resource binary (eg: Evaluate all guards in `frontend` service for release version `2024.01.10.1`). You can call Aware Data API from your CI / CD pipeline to get guard evaluation results (for halting pushes on FATAL guard failures). Aware Web UI shows the status of all active guards and their evaluations - which serves as a map of "where to improve your stack".
+
+## Usage Guide
+
+0. Ensure the prerequisites are met (Your stack is instrumented with OpenTelemetry and exporting data to Aware Platform).
+1. Add the jitpack repository in your gradle files' repository section:
+
+```
+repositories {
+	maven { url 'https://jitpack.io' }
+}
+```
+
+2. Add guards library dependency:
+
+```
+dependencies {
+        implementation 'com.github.awarelabshq:guards:0.0.359'
+}
+```
+
+3. Thats it! You can now annotate your functions with `@Guarded` annotation.
+
+___
+
+For questions / suggestions, reach out to [contact@awarelabs.io](mailto:contact@awarelabs.io).
+
+Proudly powered by [Aware Labs](https://awarelabs.io)
