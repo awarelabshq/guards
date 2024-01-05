@@ -17,7 +17,7 @@ public class GuardFactory {
         private List<String> filters;
         private String guardStartDate;
 
-        public GuardBuilder() {
+        GuardBuilder() {
             condition = "";
             environment = "";
             guardStartDate = "";
