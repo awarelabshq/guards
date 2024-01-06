@@ -76,11 +76,9 @@ public class GuardFactory {
 
         public void guard() {
             Span currentSpan = Span.current();
-            logger.info("Guard invoked");
+            logger.fine("Guard invoked");
             if (currentSpan != null) {
-                logger.info("Guarded span is not null");
                 if (condition != null && !condition.trim().isEmpty()) {
-                    logger.info("Guarded span setting condition: " + condition);
                     currentSpan.setAttribute(Constants.AWARE_GUARD_ATTRIB_CONDITION, condition);
                 }
                 if (environment != null && !environment.trim().isEmpty()) {
