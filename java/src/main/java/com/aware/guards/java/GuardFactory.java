@@ -4,8 +4,12 @@ import io.opentelemetry.api.trace.Span;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GuardFactory {
+
+    private static final Logger logger = Logger.getLogger(GuardFactory.class.getName());
+
     public static GuardBuilder createGuard() {
         return new GuardBuilder();
     }
@@ -72,9 +76,11 @@ public class GuardFactory {
 
         public void guard() {
             Span currentSpan = Span.current();
-
+            logger.info("Guard invoked");
             if (currentSpan != null) {
+                logger.info("Guarded span is not null");
                 if (condition != null && !condition.trim().isEmpty()) {
+                    logger.info("Guarded span setting condition: " + condition);
                     currentSpan.setAttribute(Constants.AWARE_GUARD_ATTRIB_CONDITION, condition);
                 }
                 if (environment != null && !environment.trim().isEmpty()) {
